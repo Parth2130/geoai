@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GeoAI | Outdoor Activity Assistant</title>
+
+<style>
+:root {
+    --green: #16866a;
+    --dark: #123e32;
+    --mint: #e7f8ef;
+    --orange: #ffbd69;
+    --text: #23443a;
+    --muted: #6b8178;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: var(--text);
+    background: linear-gradient(135deg, #f0fff6, #fffdf6, #effaff);
+    min-height: 100vh;
+}
+
+header {
+    max-width: 1200px;
+    margin: auto;
+    padding: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--dark);
+}
+
+.logo span {
+    color: var(--green);
+}
+
+.tag {
+    background: var(--mint);
+    color: var(--green);
+    padding: 10px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px 22px 50px;
+}
+
+.hero {
+    padding: 55px;
+    border-radius: 28px;
+    color: white;
+    background:
+        linear-gradient(100deg, rgba(8, 63, 46, .94), rgba(22, 134, 106, .73)),
+        url("https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=80");
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 15px 40px #194e3920;
+}
+
+.eyebrow {
+    color: #baf5d4;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.hero h1 {
+    font-size: clamp(38px, 5vw, 65px);
+    line-height: 1.08;
+    margin: 20px 0;
+}
+
+.hero p {
+    max-width: 600px;
+    line-height: 1.7;
+    color: #e6fff0;
+}
+
+.search-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+input {
+    flex: 1;
+    min-width: 220px;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+}
+
+button {
+    padding: 14px 19px;
+    border: none;
+    border-radius: 12px;
+    background: var(--orange);
+    color: #543b1d;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+}
+
+.location-btn {
+    background: white;
+    color: var(--green);
+}
+
+#status {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #e6fff0;
+    min-height: 18px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 38px 0 18px;
+}
+
+.section-title h2 {
+    font-size: 25px;
+}
+
+.section-title p {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.card {
+    background: rgba(255,255,255,.9);
+    padding: 24px;
+    border-radius: 20px;
+    border: 1px solid #dcece3;
+    box-shadow: 0 8px 25px #174b3310;
+}
+
+.card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.icon {
+    width: 45px;
+    height: 45px;
+    background: var(--mint);
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+}
+
+.metric {
+    margin: 20px 0 7px;
+    font-size: 38px;
+    font-weight: bold;
+    color: var(--dark);
+}
+
+.metric small {
+    font-size: 17px;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.recommendation {
+    background: linear-gradient(135deg, #fff5e4, #fffdf8);
+    border-color: #f5dfbb;
+}
+
+.recommendation .icon {
+    background: #ffe8c3;
+}
+
+.activities {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.activity {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    background: white;
+    border: 1px solid #dcece3;
+    border-radius: 18px;
+}
+
+.activity-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    background: var(--mint);
+    border-radius: 14px;
+    font-size: 25px;
+}
+
+.activity h3 {
+    margin-bottom: 8px;
+    font-size: 17px;
+}
+
+.activity p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.places {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.place {
+    background: white;
+    padding: 22px;
+    border: 1px solid #dcece3;
+    border-radius: 18px;
+}
+
+.place .icon {
+    margin-bottom: 14px;
+}
+
+.place h3 {
+    margin-bottom: 8px;
+}
+
+.place p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.place a {
+    display: inline-block;
+    margin-top: 13px;
+    color: var(--green);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.place a:hover {
+    text-decoration: underline;
+}
+
+.empty {
+    grid-column: 1 / -1;
+    padding: 25px;
+    text-align: center;
+    color: var(--muted);
+    background: white;
+    border: 1px dashed #b9daca;
+    border-radius: 18px;
+}
+
+footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+    padding: 35px 10px 10px;
+}
+
+@media (max-width: 800px) {
+    .hero {
+        padding: 32px 23px;
+    }
+
+    .grid,
+    .places {
+        grid-template-columns: 1fr;
+    }
+
+    .activities {
+        grid-template-columns: 1fr;
+    }
+
+    .tag {
+        display: none;
+    }
+
+    .hero h1 {
+        letter-spacing: -1px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🧭 GeoAI <span>Outdoor</span></div>
+    <div class="tag">SMARTER DAYS OUTSIDE ✦</div>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <div class="eyebrow">Your personal outdoor activity assistant</div>
+
+        <h1>Find Your Perfect<br>Day Outdoors.</h1>
+
+        <p>
+            Discover the best time to go outside using local weather,
+            air quality and nearby green spaces. Make smarter decisions
+            about walking, cycling and other outdoor activities.
+        </p>
+
+        <form class="search-box" id="searchForm">
+            <input
+                type="text"
+                id="city"
+                placeholder="Enter city, e.g. Pune or Mumbai"
+                value="Pune"
+                required
+            >
+
+            <button type="submit">Explore My Day →</button>
+
+            <button type="button" class="location-btn" id="locationBtn">
+                📍 My Location
+            </button>
+        </form>
+
+        <div id="status" role="status">
+            Loading local conditions...
+        </div>
+    </section>
+
+    <div class="section-title">
+        <div>
+            <h2>Your Local Conditions</h2>
+            <p id="locationName">Waiting for location...</p>
+        </div>
+
+        <div class="tag" id="dataStatus">LIVE DATA</div>
+    </div>
+
+    <section class="grid">
+
+        <article class="card">
+            <div class="card-top">
+                <span>Current Temperature</span>
+                <div class="icon">🌤️</div>
+            </div>
+
+            <div class="metric" id="temperature">--<small> °C</small></div>
+
+            <p id="weatherText">Weather conditions will appear here.</p>
+        </article>
+
+        <article class="card">
+            <div class="card-top">
+                <span>Air Quality (US AQI)</span>
+                <div class="icon">🍃</div>
+            </div>
+
+            <div class="metric" id="aqi">--</div>
+
+            <p id="aqiText">Air-quality information will appear here.</p>
+        </article>
+
+        <article class="card recommendation">
+            <div class="card-top">
+                <span>Outdoor Readiness</span>
+                <div class="icon">🥾</div>
+            </div>
+
+            <div class="metric" id="readiness" style="font-size:25px">
+                Checking...
+            </div>
+
+            <p id="readinessText">
+                Recommendations will adapt to local conditions.
+            </p>
+        </article>
+
+    </section>
+
+    <div class="section-title">
+        <div>
+            <h2>Activity Suggestions</h2>
+            <p>Ideas based on the latest available weather and air quality.</p>
+        </div>
+    </div>
+
+    <section class="activities" id="activities">
+        <article class="activity">
+            <div class="activity-icon">🚶</div>
+            <div>
+                <h3>Walking</h3>
+                <p>Explore a safe route and enjoy your surroundings.</p>
+            </div>
+        </article>
+
+        <article class="activity">
+            <div class="activity-icon">🌳</div>
+            <div>
+                <h3>Park Visit</h3>
+                <p>Enjoy green spaces and take a refreshing break.</p>
+            </div>
+        </article>
+
+        <article class="activity">
+            <div class="activity-icon">🚴</div>
+            <div>
+                <h3>Cycling</h3>
+                <p>Choose a suitable route and wear a helmet.</p>
+            </div>
+        </article>
+
+        <article class="activity">
+            <div class="activity-icon">📷</div>
+            <div>
+                <h3>Nature Photography</h3>
+                <p>Discover natural scenery while respecting wildlife.</p>
+            </div>
+        </article>
+    </section>
+
+    <div class="section-title">
+        <div>
+            <h2>Nearby Places to Explore</h2>
+            <p>Discover parks and outdoor spaces around your location.</p>
+        </div>
+    </div>
+
+    <section class="places" id="places">
+        <div class="empty">Nearby places will appear after you search.</div>
+    </section>
+
+    <footer>
+        <strong>GeoAI Outdoor Activity Assistant</strong><br>
+        Weather and air-quality data: Open-Meteo · Map data: OpenStreetMap<br>
+        Information is provided for general planning and is not medical or emergency advice.
+    </footer>
+
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+
+const weatherCodes = {
+    0: "Clear sky",
+    1: "Mainly clear",
+    2: "Partly cloudy",
+    3: "Overcast",
+    45: "Fog",
+    48: "Fog",
+    51: "Light drizzle",
+    53: "Drizzle",
+    55: "Heavy drizzle",
+    61: "Light rain",
+    63: "Rain",
+    65: "Heavy rain",
+    71: "Light snow",
+    73: "Snow",
+    75: "Heavy snow",
+    80: "Rain showers",
+    81: "Rain showers",
+    82: "Heavy rain showers",
+    95: "Thunderstorm",
+    96: "Thunderstorm with hail",
+    99: "Severe thunderstorm"
+};
+
+async function getJSON(url) {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error("A data service is temporarily unavailable.");
+    }
+
+    return response.json();
+}
+
+async function findCity(city) {
+    const url =
+        "https://geocoding-api.open-meteo.com/v1/search?name=" +
+        encodeURIComponent(city) +
+        "&count=1&language=en&format=json";
+
+    const data = await getJSON(url);
+
+    if (!data.results || data.results.length === 0) {
+        throw new Error("City not found. Please try another name.");
+    }
+
+    return data.results[0];
+}
+
+function getAQIInfo(aqi) {
+    if (aqi <= 50) {
+        return {
+            name: "Good",
+            advice: "Air quality is good for most outdoor activities."
+        };
+    }
+
+    if (aqi <= 100) {
+        return {
+            name: "Moderate",
+            advice: "Most people can go outside. Sensitive people should take care."
+        };
+    }
+
+    if (aqi <= 150) {
+        return {
+            name: "Unhealthy for Sensitive Groups",
+            advice: "Sensitive people should reduce prolonged outdoor exercise."
+        };
+    }
+
+    if (aqi <= 200) {
+        return {
+            name: "Unhealthy",
+            advice: "Consider reducing outdoor exercise."
+        };
+    }
+
+    if (aqi <= 300) {
+        return {
+            name: "Very Unhealthy",
+            advice: "Prefer indoor activities and limit outdoor exposure."
+        };
+    }
+
+    return {
+        name: "Hazardous",
+        advice: "Avoid outdoor exertion and follow local health guidance."
+    };
+}
+
+async function loadLocation(lat, lon, name, country = "") {
+    $("status").textContent =
+        "Gathering weather, air-quality and nearby-place data...";
+
+    $("locationName").textContent =
+        name + (country ? ", " + country : "");
+
+    $("dataStatus").textContent = "LOADING...";
+
+    try {
+        const weatherURL =
+            `https://api.open-meteo.com/v1/forecast?latitude=${lat}` +
+            `&longitude=${lon}` +
+            `&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m` +
+            `&daily=uv_index_max&timezone=auto&forecast_days=1`;
+
+        const airURL =
+            `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}` +
+            `&longitude=${lon}&current=us_aqi,pm2_5,pm10&timezone=auto`;
+
+        const [weatherData, airData] = await Promise.all([
+            getJSON(weatherURL),
+            getJSON(airURL)
+        ]);
+
+        const weather = weatherData.current;
+        const air = airData.current;
+
+        const temperature = weather.temperature_2m;
+        const feelsLike = weather.apparent_temperature;
+        const wind = weather.wind_speed_10m;
+        const code = weather.weather_code;
+        const aqi = air.us_aqi;
+        const rain = Number(weather.precipitation || 0);
+
+        $("temperature").innerHTML =
+            `${Math.round(temperature)}<small> °C</small>`;
+
+        $("weatherText").textContent =
+            `${weatherCodes[code] || "Current conditions"} · Feels like ${Math.round(feelsLike)}°C · Wind ${Math.round(wind)} km/h`;
+
+        $("aqi").textContent =
+            Number.isFinite(aqi) ? Math.round(aqi) : "--";
+
+        const aqiInfo = Number.isFinite(aqi)
+            ? getAQIInfo(aqi)
+            : {
+                name: "Unavailable",
+                advice: "Air-quality information is unavailable."
+            };
+
+        $("aqiText").textContent =
+            aqiInfo.name + " — " + aqiInfo.advice;
+
+        const dailyUV = weatherData.daily?.uv_index_max?.[0];
+
+        let readiness;
+        let reason;
+
+        if (
+            (Number.isFinite(aqi) && aqi > 150) ||
+            [95, 96, 99].includes(code) ||
+            rain >= 3
+        ) {
+            readiness = "Prefer Indoor Activities";
+
+            reason = Number.isFinite(aqi) && aqi > 150
+                ? "Air quality is poor. Consider exercising indoors."
+                : "Rain or thunderstorms may make outdoor activities unsafe.";
+        } else if (Number.isFinite(aqi) && aqi > 100) {
+            readiness = "Use Extra Caution";
+            reason = "Air quality may affect sensitive groups. Keep exercise light.";
+        } else if (temperature >= 35) {
+            readiness = "Avoid Midday Exercise";
+            reason = "It is hot. Choose cooler hours, seek shade and drink water.";
+        } else if (temperature <= 5 || rain > 0) {
+            readiness = "Plan With Care";
+            reason = "Dress appropriately and check local conditions.";
+        } else {
+            readiness = "Good Time to Go Outside";
+            reason = "Conditions appear reasonably suitable for outdoor activities.";
+        }
+
+        if (dailyUV !== undefined && dailyUV >= 6) {
+            reason += " UV may be high; use sun protection.";
+        }
+
+        $("readiness").textContent = readiness;
+        $("readinessText").textContent = reason;
+
+        showActivities(aqi, code, rain, temperature, dailyUV);
+
+        $("dataStatus").textContent = "DATA UPDATED";
+        $("status").textContent =
+            "Your outdoor activity guide is ready!";
+
+        loadNearbyPlaces(lat, lon);
+
+    } catch (error) {
+        $("status").textContent =
+            error.message || "Could not load the data.";
+
+        $("dataStatus").textContent = "DATA UNAVAILABLE";
+        $("readiness").textContent = "Unable to Check";
+        $("readinessText").textContent =
+            "Please check your internet connection and try again.";
+    }
+}
+
+function showActivities(aqi, code, rain, temperature, uv) {
+    let activities = [];
+
+    if (
+        (Number.isFinite(aqi) && aqi > 150) ||
+        [95, 96, 99].includes(code) ||
+        rain >= 3
+    ) {
+        activities = [
+            ["🏠", "Indoor Workout", "Try a safe indoor exercise routine."],
+            ["🧘", "Relax and Recharge", "Choose a comfortable indoor activity."],
+            ["📚", "Indoor Hobby", "Read, learn or work on a creative project."],
+            ["☕", "Take a Break", "Check conditions again before heading outside."]
+        ];
+    } else {
+        activities = [
+            ["🚶", "Walking", "Take a walk on a safe and suitable route."],
+            ["🚴", "Cycling", "Wear a helmet and follow local road rules."],
+            ["🌳", "Park Visit", "Enjoy a nearby green space and stay hydrated."],
+            ["📷", "Nature Photography", "Explore scenery while respecting wildlife."]
+        ];
+    }
+
+    if (temperature >= 33) {
+        activities[0] = [
+            "🌅",
+            "Early Morning Walk",
+            "Avoid the hottest hours, drink water and seek shade."
+        ];
+    }
+
+    if (uv !== undefined && uv >= 6) {
+        activities[3] = [
+            "🧢",
+            "Sun-Smart Outing",
+            "Use sunscreen, a hat and shade during high-UV hours."
+        ];
+    }
+
+    $("activities").innerHTML = activities.map(item => `
+        <article class="activity">
+            <div class="activity-icon">${item[0]}</div>
+            <div>
+                <h3>${item[1]}</h3>
+                <p>${item[2]}</p>
+            </div>
+        </article>
+    `).join("");
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
+
+async function loadNearbyPlaces(lat, lon) {
+    const container = $("places");
+
+    container.innerHTML =
+        '<div class="empty">Searching for nearby parks and gardens...</div>';
+
+    const query =
+        `[out:json][timeout:15];` +
+        `(node(around:5000,${lat},${lon})[leisure~"park|garden|nature_reserve"];` +
+        `way(around:5000,${lat},${lon})[leisure~"park|garden|nature_reserve"];` +
+        `relation(around:5000,${lat},${lon})[leisure~"park|garden|nature_reserve"];);` +
+        `out center tags 12;`;
+
+    try {
+        const response = await fetch(
+            "https://overpass-api.de/api/interpreter",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain;charset=UTF-8"
+                },
+                body: query
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Nearby places are unavailable.");
+        }
+
+        const data = await response.json();
+
+        const places = (data.elements || [])
+            .filter(place => place.tags &&
+                (place.tags.name || place.tags.leisure))
+            .slice(0, 6);
+
+        if (places.length === 0) {
+            throw new Error("No nearby places found.");
+        }
+
+        container.innerHTML = places.map(place => {
+            const tags = place.tags || {};
+            const placeName = tags.name || "Green Space";
+            const type = (tags.leisure || "outdoor place")
+                .replaceAll("_", " ");
+
+            const placeLat = place.lat ??
+                place.center?.lat ?? lat;
+
+            const placeLon = place.lon ??
+                place.center?.lon ?? lon;
+
+            const mapURL =
+                `https://www.openstreetmap.org/?mlat=${placeLat}` +
+                `&mlon=${placeLon}#map=16/${placeLat}/${placeLon}`;
+
+            return `
+                <article class="place">
+                    <div class="icon">🌳</div>
+                    <h3>${escapeHTML(placeName)}</h3>
+                    <p>${escapeHTML(type)} · Within about 5 km</p>
+                    <a href="${mapURL}" target="_blank" rel="noopener">
+                        View Map ↗
+                    </a>
+                </article>
+            `;
+        }).join("");
+
+    } catch (error) {
+        container.innerHTML = `
+            <div class="empty">
+                Nearby places could not be loaded.
+                <a href="https://www.openstreetmap.org/#map=13/${lat}/${lon}"
+                   target="_blank" rel="noopener">
+                    Explore the map ↗
+                </a>
+            </div>
+        `;
+    }
+}
+
+$("searchForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const city = $("city").value.trim();
+
+    if (!city) {
+        $("status").textContent = "Please enter a city name.";
+        return;
+    }
+
+    try {
+        $("status").textContent = "Finding your city...";
+
+        const place = await findCity(city);
+
+        await loadLocation(
+            place.latitude,
+            place.longitude,
+            place.name,
+            place.country
+        );
+
+    } catch (error) {
+        $("status").textContent =
+            error.message || "Unable to find this location.";
+    }
+});
+
+$("locationBtn").addEventListener("click", () => {
+    if (!navigator.geolocation) {
+        $("status").textContent =
+            "Location is not supported. Please enter a city.";
+        return;
+    }
+
+    $("status").textContent =
+        "Requesting permission to access your location...";
+
+    navigator.geolocation.getCurrentPosition(
+        position => {
+            loadLocation(
+                position.coords.latitude,
+                position.coords.longitude,
+                "Your Current Location"
+            );
+        },
+        () => {
+            $("status").textContent =
+                "Location permission denied. Please enter a city.";
+        },
+        {
+            enableHighAccuracy: false,
+            timeout: 10000
+        }
+    );
+});
+
+$("searchForm").requestSubmit();
+</script>
+
+</body>
+</html>
